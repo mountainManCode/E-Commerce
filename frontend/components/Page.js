@@ -16,11 +16,12 @@ const GlobalStyles = createGlobalStyle`
     --grey: #3A3A3A;
     --gray: var(--grey);
     --lightGrey: #E1E1E1;
-    --lightGray: var(--lightGrey);
+    --lightGray: var(--lightGrey); /* TODO: color not showing on nav, shows if different color. */
     --offWhite: #EDEDED;
     --maxWidth: 1000px;
     --bs: 0 12px 24px 0 rgba( 0,0,0,0.09);
     box-sizing: border-box;
+		font-size: 62.5%;
   }
   *, *:before, *:after {
     box-sizing: inherit;
@@ -35,7 +36,7 @@ const GlobalStyles = createGlobalStyle`
   }
 
   a {
-    text-decoration: none:
+    text-decoration: none;
     color: var(--black);
   }
 
@@ -50,7 +51,7 @@ const GlobalStyles = createGlobalStyle`
 
 const InnerStyles = styled.div`
   max-width: var(--maxWidth);
-  margin: - auto;
+  margin: -auto;
   padding: 2rem;
 `;
 
