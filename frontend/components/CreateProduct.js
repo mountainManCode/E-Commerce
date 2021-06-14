@@ -1,6 +1,8 @@
+import Router from 'next/router';
 import { useMutation } from '@apollo/client';
 import gql from 'graphql-tag';
 import useForm from '../lib/useForm';
+import { ALL_PRODUCTS_QUERY } from './Products';
 import DisplayError from './ErrorMessage';
 import Form from './styles/Form';
 
@@ -38,6 +40,7 @@ export default function CreateProduct() {
     CREATE_PRODUCT_MUTATION,
     {
       variables: inputs,
+      refetchQueries: [{ query: ALL_PRODUCTS_QUERY }],
     }
   );
 
@@ -48,8 +51,14 @@ export default function CreateProduct() {
 
         // Submit inputfields to the backend.
         // Can submit the variables here in createProduct(variables), if you don't know the variables til the time of submit.
-        await createProduct();
+        const res = await createProduct();
         clearForm();
+
+        // Go to that Product's page.
+        Router.push({
+          pathname: `/product/${res.data.createProduct.id}`,
+          // other parameters can be passed.
+        });
       }}
     >
       <DisplayError error={error} />
@@ -58,6 +67,7 @@ export default function CreateProduct() {
         <label htmlFor="name">
           Name
           <input
+            required
             type="text"
             id="name"
             name="name"
@@ -68,11 +78,18 @@ export default function CreateProduct() {
         </label>
         <label htmlFor="image">
           Image
-          <input type="file" id="image" name="image" onChange={handleChange} />
+          <input
+            required
+            type="file"
+            id="image"
+            name="image"
+            onChange={handleChange}
+          />
         </label>
         <label htmlFor="price">
           Price
           <input
+            required
             type="number"
             id="price"
             name="price"
