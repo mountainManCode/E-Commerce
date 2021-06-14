@@ -46,6 +46,9 @@ const Form = styled.form`
     font-weight: 600;
     padding: 0.5rem 1.2rem;
   }
+  button {
+    margin-right: 1rem;
+  }
   fieldset {
     border: 0;
     padding: 0;
