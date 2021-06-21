@@ -1,4 +1,4 @@
-import Link from 'next/Link';
+import Link from 'next/link';
 import formatMoney from '../lib/formatMoney';
 import ItemStyles from './styles/ItemStyles';
 import Title from './styles/Title';
