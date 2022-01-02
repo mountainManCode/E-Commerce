@@ -2,11 +2,12 @@ import styled from 'styled-components';
 import CartStyles from './styles/CartStyles';
 import CloseButton from './styles/CloseButton';
 import Supreme from './styles/Supreme';
-import { useUser } from './User';
-import formatMoney from '../lib/formatMoney';
+import Checkout from './Checkout';
 import calcTotalPrice from '../lib/calcTotalPrice';
-import { useCart } from '../lib/cartState';
+import formatMoney from '../lib/formatMoney';
 import RemoveFromCart from './RemoveFromCart';
+import { useCart } from '../lib/cartState';
+import { useUser } from './User';
 
 const CartItemStyles = styled.li`
   padding: 1rem 0;
@@ -66,6 +67,7 @@ export default function Cart() {
 
       <footer>
         <p>{formatMoney(calcTotalPrice(me.cart))}</p>
+        <Checkout />
       </footer>
     </CartStyles>
   );
