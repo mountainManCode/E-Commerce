@@ -1,6 +1,5 @@
 import Head from 'next/head';
-import { useQuery } from '@apollo/client';
-import gql from 'graphql-tag';
+import { gql, useQuery } from '@apollo/client';
 import styled from 'styled-components';
 import DisplayError from './ErrorMessage';
 
