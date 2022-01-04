@@ -5,21 +5,23 @@ import {
 	statelessSessions,
 } from '@keystone-next/keystone/session';
 import { CartItem } from './schemas/CartItem';
-import { OrderItem } from './schemas/OrderItem';
 import { Order } from './schemas/Order';
-import { ProductImage } from './schemas/ProductImage';
+import { OrderItem } from './schemas/OrderItem';
 import { Product } from './schemas/Product';
+import { ProductImage } from './schemas/ProductImage';
+import { Role } from './schemas/Role';
 import { User } from './schemas/User';
 import 'dotenv/config';
 import { insertSeedData } from './seed-data';
 import { sendPasswordResetEmail } from './lib/mail';
 import { extendGraphqlSchema } from './mutations';
+import { permissionsList } from './schemas/fields';
 
 const databaseURL =
 	process.env.DATABASE_URL || 'mongodb://localhost/keystone-tailspin';
 
 const sessionConfig = {
-	maxAge: 60 * 60 * 24 * 360, // How long they stay signed in?
+	maxAge: 60 * 60 * 24 * 360, // Stay signed in -> 1year.
 	secret: process.env.COOKIE_SECRET,
 };
 
@@ -65,7 +67,8 @@ export default withAuth(
 			ProductImage,
 			CartItem,
 			OrderItem,
-			Order
+			Order,
+			Role
 		}),
 		extendGraphqlSchema,
 		ui: {
@@ -76,7 +79,7 @@ export default withAuth(
 		},
 		session: withItemData(statelessSessions(sessionConfig), {
 			// GraphQL Query
-			User: 'id name email',
+			User: `id name email role { ${ permissionsList.join( ' ' ) } }`,
 		}),
 	})
 );
