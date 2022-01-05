@@ -37,22 +37,22 @@ Clone the repo, then run:
 
 From inside the `frontend` directory, run:
 ```bash
-cd frontend && npm install || yarn install
+cd frontend && yarn install
 ```
 
 From the `backend` directory start the server, run:
 ```bash
-cd backend && npm install || yarn install
+cd backend && yarn install
 ```
 
 ## Start-up
 
 From inside the `frontend` directory, run:
 ```bash
-npm dev || yarn dev
+yarn dev
 ```
 
 From the `backend` directory start the server, run:
 ```bash
-npm dev || yarn dev
+yarn dev
 ```
