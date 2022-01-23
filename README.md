@@ -28,7 +28,7 @@ Seller login - access to Sell/Update Products, Cart and purchasing products.
 * Create a guest feature so a customer does not need an account to purchase items.
 * Complete the Accounts page.
 * Image slider on the Product page.
-* Cleaner styling to Product page.
+* Style Product page.
 * Setup mailing - Currently Request Password email is being sent to mailTrap - Setup Postmark
 
 ## Installation
