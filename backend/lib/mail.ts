@@ -20,6 +20,7 @@ function emailTemplate( text: string ): string {
 		">
 			<h2>Hello there,</h2>
 			<p>${text}</p>
+			<br/>
 			<p>Aaron Griffiths</p>
 		</div>
 	`;

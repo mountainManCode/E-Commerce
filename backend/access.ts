@@ -1,8 +1,8 @@
-import { permissionsList } from "./schemas/fields";
+import { Permission, permissionsList } from "./schemas/fields";
 import { ListAccessArgs } from "./types";
 
 // At its simplest, the access control returns a yes or no value depending on the users session.
-export function isSignedIn({ session }): ListAccessArgs {
+export function isSignedIn({ session }: ListAccessArgs ) {
 	return !!session;
 }
 
@@ -11,13 +11,16 @@ const generatedPermissions = Object.fromEntries(permissionsList.map( permission 
 	function({ session }: ListAccessArgs) {
 		return !!session?.data.role?.[permission];
 	}
-]));
+])) as Record<Permission, ({ session }: ListAccessArgs ) => boolean>;
 
 // Permissions check if someone meets criteria - yes or no.
 export const permissions = {
 	...generatedPermissions,
 	// guest({ session }: ListAccessArgs ): boolean {
 	// 	return !session?.data.role;
+	// },
+	// isAwesome({ session }: ListAccessArgs): boolean {
+	//   return !!session?.data.name.includes('scooby');
 	// },
 }
 
@@ -29,13 +32,13 @@ export const rules = {
 			return false;
 		}
 
-		// Do they have the permission of canManageProducts
+		// 1. Do they have the permission of canManageProducts
 		if(permissions.canManageProducts({ session })) {
 			return true;
 		}
 		// 2. If not, do they own this item?
 		// return the Where filter, and if finds nothing, returns a falsey value.
-		return { user: { id: session.itemId }};
+		return { user: { id: { equals: session?.itemId }}};
 	},
 	canOrder({ session }: ListAccessArgs ) {
 		if(!isSignedIn({ session }) ) {
@@ -48,7 +51,7 @@ export const rules = {
 		}
 		// 2. If not, do they own this item?
 		// return the Where filter, and if finds nothing, returns a falsey value.
-		return { user: { id: session.itemId }};
+		return { user: { id: { equals: session?.itemId }}};
 	},
 	canManageOrderItems({ session }: ListAccessArgs ) {
 		if(!isSignedIn({ session }) ) {
@@ -61,19 +64,19 @@ export const rules = {
 		}
 		// 2. If not, do they own this item?
 		// return the query Order -> user -> itemId (using Where filter), and if finds nothing, returns a falsey value.
-		return { order: { user: { id: session.itemId }}};
+		return { order: { user: { id: { equals: session?.itemId }}}};
 	},
 	canReadProducts({ session }: ListAccessArgs) {
 		if(!isSignedIn({ session }) ) {
 			return false;
 		}
 
-		if( permissions.canReadProducts ) {
+		if( permissions.canManageProducts({ session }) ) {
 			return true; // They can read everything.
 		}
 
 		// They should only see available products (based on  the status field).
-		return { status: 'AVAILABLE' };
+		return { status: { equals: 'AVAILABLE' }};
 	},
 	canManageUsers({ session }: ListAccessArgs ) {
 		if(!isSignedIn({ session }) ) {
@@ -85,6 +88,6 @@ export const rules = {
 			return true;
 		}
 		// 2. Otherwise, can only update themselves.
-		return { id: session.itemId };
+		return { id: { equals: session.itemId }};
 	},
 }

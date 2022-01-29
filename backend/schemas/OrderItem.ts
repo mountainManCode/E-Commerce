@@ -1,16 +1,18 @@
-import { list } from "@keystone-next/keystone/schema/dist/keystone.cjs";
-import { text, select, integer, relationship } from "@keystone-next/fields";
+import { list } from "@keystone-6/core";
+import { text, select, integer, relationship } from "@keystone-6/core/fields";
 import { isSignedIn, rules } from "../access";
 
 export const OrderItem = list({
   access: {
-		create: isSignedIn,
-		read: rules.canManageOrderItems,
-		update: () => false,
-		delete: () => false,
+		operation: {
+      create: isSignedIn,
+      update: () => false,
+      delete: () => false,
+    },
+    filter: { query: rules.canManageOrderItems },
 	},
   fields: {
-    name: text({ isRequired: true }),
+    name: text({ validation: { isRequired: true }}),
     description: text({
       ui: {
         displayMode: 'textarea',
